@@ -28,14 +28,15 @@ const createRequest = (options = {}, callback) => {
   }
 
 
-  xhr.onload = xhr.onerror = function () {
-    
+  xhr.onload = function () {    
     if (xhr.status === 200 && xhr.readyState === 4) {
       let response = xhr.response;
-      callback(response, err);
-    } else if (xhr.status != 200) {
-      let err = `${xhr.status}: ${xhr.statusText}`;
-      console.log(err);
+      callback(response, err)
+    }
+
+  xhr.onerror = function() {
+    if (xhr.status != 200) {
+      throw new Error (xhr.status)
     }
   }
 
