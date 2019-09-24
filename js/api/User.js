@@ -74,7 +74,7 @@ class User {
       method: 'POST',
       url: this.HOST + this.URL + '/login',
       responseType: 'json',
-      callback: (response, err) => {
+      callback: callback = (response, err) => {
         if (response && response.success === "true") {
           this.setCurrent(response.user)
         }
@@ -95,7 +95,7 @@ class User {
       method: 'POST',
       url: this.HOST + this.URL + '/register',
       responseType: 'json',
-      callback: (response, err) => {
+      callback: callback = (response, err) => {
         if (response && response.success === "true") {
           this.setCurrent(response.user)
         }
