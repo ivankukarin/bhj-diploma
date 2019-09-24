@@ -33,6 +33,7 @@ const createRequest = (options = {}, callback) => {
       let response = xhr.response;
       callback(response, err)
     }
+  }
 
   xhr.onerror = function() {
     if (xhr.status != 200) {
@@ -46,7 +47,5 @@ const createRequest = (options = {}, callback) => {
   }
   catch (e) {
     callback(e)
-  }
-
-
+    }
 };
