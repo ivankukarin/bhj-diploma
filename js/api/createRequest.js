@@ -30,7 +30,7 @@ const createRequest = (options = {}, callback=(f)=>{f}) => {
   xhr.onload = function () {    
     if (xhr.status === 200 && xhr.readyState === 4) {
       let response = xhr.response;
-      callback(response, err)
+      callback(response)
     }
   }
 
@@ -44,7 +44,7 @@ const createRequest = (options = {}, callback=(f)=>{f}) => {
   try {
     xhr.send(formData)
   }
-  catch (e) {
-    callback(e)
+  catch (err) {
+    callback(err)
     }
 };
