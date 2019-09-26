@@ -4,8 +4,6 @@
  * Имеет свойство HOST, равно 'http://bhj-diploma.u-w.me'.
  * */
 class Entity {
-  
-  
   /**
    * Запрашивает с сервера список данных.
    * Это могут быть счета или доходы/расходы
@@ -84,5 +82,5 @@ class Entity {
     return createRequest(options);
   }
 }
-Entity.HOST = "https://bhj-diploma.herokuapp.com";
+Entity.HOST = "https://bhj-diplom.letsdocode.ru";
 Entity.URL = "";
