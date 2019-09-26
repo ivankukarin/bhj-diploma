@@ -3,7 +3,7 @@
  * на сервер.
  * */
 const createRequest = (options = {}, callback=(f)=>{f}) => {
-  let formData;
+  let formData = new FormData;
 
   let xhr = new XMLHttpRequest();
   

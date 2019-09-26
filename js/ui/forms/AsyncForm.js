@@ -39,9 +39,8 @@ class AsyncForm {
    * }
    * */
   getData() {
-    let form = this.element.querySelector("form");
-    let formData = new FormData(form);
-    entries = formData.entries();
+    let formData = new FormData(this.element);
+    let entries = formData.entries();
     let obj = {};
     for (let item of entries) {
       const key = item[0],
