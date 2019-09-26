@@ -5,18 +5,15 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-  constructor() {
-
-  }
-  static URL = '/user';
+  static URL = "/user";
   static HOST = Entity.HOST;
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
-   * Как проставить дополнительно / и зачем? 
+   * Как проставить дополнительно / и зачем?
    **/
   static setCurrent(user) {
-    localStorage.user = JSON.stringify(user)
+    localStorage.user = JSON.stringify(user);
   }
 
   /**
@@ -32,35 +29,29 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    if (localStorage.user && JSON.parse(localStorage.user)) {
-      return JSON.parse(localStorage.user)
-    } else if (!localStorage.user) {
-      return undefined;
-    }
-  };
+    return localStorage.user && JSON.parse(localStorage.user);
+  }
 
   /**
    * Получает информацию о текущем
    * авторизованном пользователе.
    * */
-  static fetch(data, callback = f => f) {
+  static fetch(data, callback) {
     createRequest({
       data,
-      method: 'GET',
-      url: this.HOST + this.URL + '/current',
-      responseType: 'json',
-      callback: callback = (response, err) => {
-        if (response & response.success === "true") {
-          this.setCurrent(response.user)
+      method: "GET",
+      url: this.HOST + this.URL + "/current",
+      responseType: "json",
+      callback(response, err) {
+        if (response.user & response.success) {
+          this.setCurrent(response.user);
         } else if (response.success === "false") {
           this.unsetCurrent();
         }
+        callback(response, err);
       }
-            
-    })
-  };
- 
-
+    });
+  }
 
   /**
    * Производит попытку авторизации.
@@ -68,20 +59,20 @@ class User {
    * сохранить пользователя через метод
    * User.setCurrent.
    * */
-  static login(data, callback = f => f) {
+  static login(data, callback) {
     createRequest({
       data,
-      method: 'POST',
-      url: this.HOST + this.URL + '/login',
-      responseType: 'json',
-      callback: callback = (response, err) => {
+      method: "POST",
+      url: this.HOST + this.URL + "/login",
+      responseType: "json",
+      callback(response) {
         if (response && response.success === "true") {
-          this.setCurrent(response.user)
+          this.setCurrent(response.user);
         }
+        callback(response, err);
       }
-    })
+    });
   }
-
 
   /**
    * Производит попытку регистрации пользователя.
@@ -89,34 +80,37 @@ class User {
    * сохранить пользователя через метод
    * User.setCurrent.
    * */
-  static register(data, callback = f => f) {
+  static register(data, callback) {
     createRequest({
       data,
-      method: 'POST',
-      url: this.HOST + this.URL + '/register',
-      responseType: 'json',
-      callback: callback = (response, err) => {
+      method: "POST",
+      url: this.HOST + this.URL + "/register",
+      responseType: "json",
+      callback(response, err) {
         if (response && response.success === "true") {
-          this.setCurrent(response.user)
+          this.setCurrent(response.user);
         }
+        callback(response, err);
       }
-    })
+    });
   }
-
-
-
 
   /**
    * Производит выход из приложения. После успешного
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
-  static logout(data, callback = f => f) {
+  static logout(data, callback) {
     createRequest({
       data,
-      method: 'POST',
-      url: this.HOST + this.URL + '/logout',
-      responseType: 'json',
-      callback: callback(response, err)
+      method: "POST",
+      url: this.HOST + this.URL + "/logout",
+      responseType: "json",
+      callback(response, err) {
+        if (response && response.success === "true") {
+          this.unsetCurrent();
+        }
+        callback(response, err);
+      }
     });
   }
 }

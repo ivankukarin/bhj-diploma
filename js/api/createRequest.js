@@ -2,12 +2,11 @@
  * Основная функция для совершения запросов
  * на сервер.
  * */
-const createRequest = (options = {}, callback) => {
+const createRequest = (options = {}, callback=(f)=>{f}) => {
   let formData;
 
   let xhr = new XMLHttpRequest();
-  let response;
-  let err;
+  
   
   xhr.responseType = options.responseType;
   if (options.hasOwnProperty("headers")) {

@@ -13,14 +13,12 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor(element) {
-    if (element) {
-      this.element = element;
-      this.registerEvents();
-      this.update();
-    } else {
-      throw new Error('Элемент в  AccountsWidget отсутствует')
+    if (!element) {
+      throw new Error("Элемент в  AccountsWidget отсутствует");
     }
-
+    this.element = element;
+    this.registerEvents();
+    this.update();
   }
 
   /**
@@ -32,19 +30,23 @@ class AccountsWidget {
    * */
   registerEvents() {
     let buttonCreateAccount = document.querySelector(".create-account");
-    let allAccounts = document.querySelectorAll('.account');
+    
+    buttonCreateAccount.addEventListener("click", () => {
+      App.getModal("createAccount");
+    });
 
-    buttonCreateAccount.addEventListener('click', () => {
-      let modalNewAccount = getModal('createAccount');
+    //  здесь я попытался сделать корретировку с учетом вашей инструкции. и признаться, не совсем понял как это:"20) В методе registerEvents класса AccountsWidget у вас каждый раз будет разное количество аккаунтов. Иногда они будут удаляться, иногда удаляться, а метод вызывается только 1 раз. Так что вам нужен универсальный подход для этого. Попробуйте повесить обработчик события на элемент виждета, а уже из него получать аккаунт, на котороый вы кликнули."     Но может лучше сделать обработчик не на this.element, а на элемент содержащий все счета в блоке, что бы при удалении или добавлениии счета обновлялась функция указанная ниже, или в this.update() добавить еще раз this.registerEvents() ?? //
+  
+    this.element.addEventListener('change',()=>{
+      let allAccounts = document.querySelectorAll(".account");
+      for (let account of allAccounts) {
+      account.addEventListener("click", () => {
+        account.onSelectAccount();
+      });
+    }
     })
 
-    // let allAccounts = document.querySelectorAll('.account');
-
-    for (let account of allAccounts) {
-      account.addEventListener('click', () => {
-        account.onSelectAccount()
-      })
-    }
+    
   }
 
   /**
@@ -59,11 +61,14 @@ class AccountsWidget {
    * */
   update() {
     if (User.current()) {
-      let accountList = Account.list();
-      for (let account of accountList) {
-        this.clear();
-        this.render(account);
-      }
+      Account.list({}, (response, err) => {
+        if (response & response.success) {
+          this.clear();
+          for (let account of response) {
+            this.render(account);
+          }
+        }
+      });
     }
   }
 
@@ -72,7 +77,7 @@ class AccountsWidget {
    * метода renderItem
    * */
   render(data) {
-    for (let account of data){
+    for (let account of data) {
       this.renderItem(account);
     }
   }
@@ -83,9 +88,9 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-    const allAccounts = document.querySelectorAll('.account')
+    const allAccounts = document.querySelectorAll(".account");
     for (let account of allAccounts) {
-      account.remove()
+      account.remove();
     }
   }
 
@@ -97,17 +102,17 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount(element) {
-    const allAccounts = document.querySelectorAll('.account')
-    for (let account of allAccounts) {
-      account.addEventListener('click', () => {
-        for (let account of allAccounts) {
-          if (account.classList.contains('active')) {
-            account.classList.remove('active');
-          }
-        }
-        account.classList.add('active');
-      })
+    const account = this.element.querySelector(
+      '.account[data-id="${this.currentAccountId}"]'
+    );
+    if (account) {
+      if (account.classList.contains("active")) {
+        account.classList.remove("active");
+      }
     }
+    element.classList.add(".active");
+    this.currentAccountId = element.dataset.id;
+    App.showPage("transactions", { account_id: this.currentAccountId });
   }
 
   /**
@@ -116,8 +121,7 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item) {
-    let html = `<li class="active" data-id="${item.id}"><a href="#"><span>${item.name}/span>/<span>${item.sun} ₽</span></a></li>`;
-    return html;
+    return `<li class="active" data-id="${item.id}"><a href="#"><span>${item.name}/span>/<span>${item.sun} ₽</span></a></li>`;
   }
 
   /**

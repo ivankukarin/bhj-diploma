@@ -21,7 +21,7 @@ class Entity {
       callback: callback 
           
     }
-    return createRequest(options, callback);
+    return createRequest(options);
   }
 
   /**
@@ -38,7 +38,7 @@ class Entity {
       method: 'POST',
       callback: callback         
     }
-    return createRequest(options, callback);
+    return createRequest(options);
   }
 
   /**
@@ -53,7 +53,7 @@ class Entity {
       data,
       callback: callback
     }
-    return createRequest(options, callback);
+    return createRequest(options);
   }
 
   /**
@@ -68,7 +68,7 @@ class Entity {
       data,
       callback: callback
     }
-    return createRequest(options, callback);
+    return createRequest(options);
   }
 
   /**
@@ -83,7 +83,7 @@ class Entity {
       method: 'POST',
       callback: callback
     }
-    return createRequest(options, callback);
+    return createRequest(options);
   }
 }
 
