@@ -29,24 +29,17 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    let buttonCreateAccount = document.querySelector(".create-account");
-    
-    buttonCreateAccount.addEventListener("click", () => {
-      App.getModal("createAccount");
+    let btnAccountsPanel = document.querySelector(".accounts-panel");
+
+    btnAccountsPanel.addEventListener("click", e => {
+      if (e.target.closest(".create-account")) {
+        App.getModal("createAccount");
+      }
+
+      if (e.target.closest(".account")) {
+        e.target.closest(".account").onSelectAccount();
+      }
     });
-
-    //  здесь я попытался сделать корретировку с учетом вашей инструкции. и признаться, не совсем понял как это:"20) В методе registerEvents класса AccountsWidget у вас каждый раз будет разное количество аккаунтов. Иногда они будут удаляться, иногда удаляться, а метод вызывается только 1 раз. Так что вам нужен универсальный подход для этого. Попробуйте повесить обработчик события на элемент виждета, а уже из него получать аккаунт, на котороый вы кликнули."     Но может лучше сделать обработчик не на this.element, а на элемент содержащий все счета в блоке, что бы при удалении или добавлениии счета обновлялась функция указанная ниже, или в this.update() добавить еще раз this.registerEvents() ?? //
-  
-    this.element.addEventListener('change',()=>{
-      let allAccounts = document.querySelectorAll(".account");
-      for (let account of allAccounts) {
-      account.addEventListener("click", () => {
-        account.onSelectAccount();
-      });
-    }
-    })
-
-    
   }
 
   /**

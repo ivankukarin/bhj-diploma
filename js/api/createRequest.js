@@ -17,12 +17,12 @@ const createRequest = (options = {}, callback=(f)=>{f}) => {
   xhr.credentials = 'true';
 
   if (options.method === 'GET') {
-    for (let key in options.data) {
-      options.url += "?" + key + "=" + options.data[key]
+    for (let key in options.data.data) {
+      options.url += "?" + key + "=" + options.data.data[key]
     }
   } else {
-    for (let key in options.data) {
-      formData.append(key, options.data[key]);
+    for (let key in options.data.data) {
+      formData.append(key, options.data.data[key]);
     }
   }
 

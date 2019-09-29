@@ -13,10 +13,10 @@ class CreateTransactionForm extends AsyncForm {
     this.renderAccountsList();
   }
 
-  // не нашел описания по этому методу. 
-  // update() {
-
-  // }
+  // не нашел описания по этому методу.
+  update() {
+    this.renderAccountsList();
+  }
 
   /**
    * Получает список счетов с помощью Account.list
@@ -24,7 +24,8 @@ class CreateTransactionForm extends AsyncForm {
    * */
   renderAccountsList() {
     let elemAccountList = document.querySelector(".accounts-select");
-    elemAccountList.innerHTML = "";
+    /// этим очищаю список транзакций перед отрисовкой
+    elemAccountList.innerHTML = "";   
     Account.list({}, (response, err) => {
       if (response && response.success) {
         for (let item of response) {
@@ -43,15 +44,13 @@ class CreateTransactionForm extends AsyncForm {
    * */
   onSubmit(options) {
     Transaction.create(options, function(response, err) {
-      if (response.success) {        
+      if (response.success) {
         this.element.reset();
 
         let type = this.element
           .querySelector([(name = "type")])
           .getAttribute("value");
-        let modal = App.getModal(
-          "new" + type[0].toUpperCase() + type.slice(1)
-        );
+        let modal = App.getModal("new" + type[0].toUpperCase() + type.slice(1));
         modal.close();
         App.update();
       }
