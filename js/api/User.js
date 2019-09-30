@@ -5,7 +5,6 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-  
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
@@ -42,10 +41,10 @@ class User {
       url: this.HOST + this.URL + "/current",
       responseType: "json",
       callback(response, err) {
-        if (response.user & response.success) {
-          this.setCurrent(response.user);
-        } else if (response.success === "false") {
-          this.unsetCurrent();
+        if (response.user & (response.success === true)) {
+          User.setCurrent(response.user);
+        } else if (response.success === false) {
+          User.unsetCurrent();
         }
         callback(response, err);
       }
@@ -65,8 +64,10 @@ class User {
       url: this.HOST + this.URL + "/login",
       responseType: "json",
       callback(response) {
-        if (response && response.success === "true") {
-          this.setCurrent(response.user);
+        if (response && response.success === true) {
+          User.setCurrent(response.user);
+        } else {
+          console.log(err);
         }
         callback(response, err);
       }
@@ -86,8 +87,10 @@ class User {
       url: this.HOST + this.URL + "/register",
       responseType: "json",
       callback(response, err) {
-        if (response && response.success === "true") {
-          this.setCurrent(response.user);
+        if (response && response.success === true) {
+          User.setCurrent(response.user);
+        } else {
+          console.log(err.error);
         }
         callback(response, err);
       }
@@ -106,7 +109,7 @@ class User {
       responseType: "json",
       callback(response, err) {
         if (response && response.success === "true") {
-          this.unsetCurrent();
+          User.unsetCurrent();
         }
         callback(response, err);
       }
