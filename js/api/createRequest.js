@@ -2,7 +2,7 @@
  * Основная функция для совершения запросов
  * на сервер.
  * */
-const createRequest = (options = {}, callback=(f)=>{f}) => {
+const createRequest = (options = {}, callback=(err, response)=>{
   let formData = new FormData;
 
   let xhr = new XMLHttpRequest();
@@ -30,13 +30,13 @@ const createRequest = (options = {}, callback=(f)=>{f}) => {
   xhr.onload = function () {    
     if (xhr.status === 200 && xhr.readyState === 4) {
       let response = xhr.response;
-      callback(response)
+      callback(null, response)
     }
   }
 
   xhr.onerror = function() {
     if (xhr.status != 200) {
-      throw new Error (xhr.status)
+      callback( new Error ("Не удалось загрузить данные" + xhr.status))
     }
   }
 
@@ -47,4 +47,4 @@ const createRequest = (options = {}, callback=(f)=>{f}) => {
   catch (err) {
     callback(err)
     }
-};
+});

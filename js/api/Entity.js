@@ -8,16 +8,17 @@ class Entity {
    * Запрашивает с сервера список данных.
    * Это могут быть счета или доходы/расходы
    * (в зависимости от того, что наследуется от Entity)
-   * */
-  static list(data, callback(response, err){
+  //  * */
+  static list(data, callback) {
     createRequest({
       data,
       method: "GET",
       url: this.HOST + this.URL,
       responseType: "json",
-      callback(response, err)
+      callback(err, response){
+        callback(err, response)}
       })
-    })
+    }
   }
 
   /**
@@ -32,56 +33,56 @@ class Entity {
       url: this.HOST + this.URL,
       responseType: "json",
       method: "POST",
-      callback: callback
+      callback(err, response);
     };
-    return createRequest(options);
+    createRequest(options, callback (err,response));
   }
 
   /**
    * Получает информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static get(id = "", data, callback = f => f) {
+  static get(id = "", data, callback) {
     let options = {
       url: this.HOST + this.URL + "/" + id,
       responseType: "json",
       method: "GET",
       data,
-      callback(response, err)
-    };
-    return createRequest(options);
+      callback(err, response)
+      };
+    return createRequest(options, callback (err,response));
   }
 
   /**
    * Обновляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static update(id = "", data, callback = (response, err) => {
+  static update(id = "", data, callback) {
     let options = {
       url: this.HOST + this.URL + "/" + id,
       responseType: "json",
       method: "POST",
       data,
-      callback(response,err);
+      callback(err, response);
     };
-
-    createRequest(options);
-  })
+    createRequest(options,callback (err,response));
+  }
 
   /**
    * Удаляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static remove(id = "", data, callback=(response, err)=>{
+  static remove(id = "", data, callback) {
     Object.assign(data, { _method: "DELETE" });
+
     createRequest({
+      data,
       url: this.HOST + this.URL + "/" + id,
       responseType: "json",
       method: "POST",
-      callback(response, err)
-    };
-    callback(response, err));    
-  })
+      callback(err, response);
+    }, callback (err,response))       
+  }
 }
 Entity.HOST = "https://bhj-diplom.letsdocode.ru";
 Entity.URL = "";
