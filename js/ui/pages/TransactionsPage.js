@@ -95,8 +95,8 @@ class TransactionsPage {
   render(options) {
     if (options) {
       this.lastOptions = options;
-      Account.get(options.account_id, {}, () => {
-        if (response.success === "true") {
+      Account.get(options.account_id, {}, (err,response) => {
+        if (response.success === true) {
           this.renderTitle(response.name);
         }
       });

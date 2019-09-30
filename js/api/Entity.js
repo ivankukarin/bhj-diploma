@@ -9,24 +9,25 @@ class Entity {
    * Это могут быть счета или доходы/расходы
    * (в зависимости от того, что наследуется от Entity)
   //  * */
-  static list(data, callback) {
+  static list(data, callback(err, response)) {
     createRequest({
       data,
       method: "GET",
       url: this.HOST + this.URL,
       responseType: "json",
-      callback(err, response){
-        callback(err, response)}
-      })
-    }
+      callback(err, response) {
+        callback(err, response)
+      }
+    })
   }
+  
 
   /**
    * Создаёт счёт или доход/расход с помощью запроса
    * на сервер. (в зависимости от того,
    * что наследуется от Entity)
    * */
-  static create(data, callback) {
+  static create(data, callback(err, response)) {
     Object.assign(data, { _method: "PUT" });
     let options = {
       data,
@@ -42,7 +43,7 @@ class Entity {
    * Получает информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static get(id = "", data, callback) {
+  static get(id = "", data, callback(err, response)) {
     let options = {
       url: this.HOST + this.URL + "/" + id,
       responseType: "json",
@@ -57,7 +58,7 @@ class Entity {
    * Обновляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static update(id = "", data, callback) {
+  static update(id = "", data, callback(err, response)) {
     let options = {
       url: this.HOST + this.URL + "/" + id,
       responseType: "json",
@@ -65,14 +66,14 @@ class Entity {
       data,
       callback(err, response);
     };
-    createRequest(options,callback (err,response));
+    createRequest(options, callback (err,response));
   }
 
   /**
    * Удаляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static remove(id = "", data, callback) {
+  static remove(id = "", data, callback(err, response)) {
     Object.assign(data, { _method: "DELETE" });
 
     createRequest({

@@ -29,7 +29,6 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    
     this.element.addEventListener("click", e => {
       if (e.target.closest(".create-account")) {
         App.getModal("createAccount");
@@ -53,12 +52,14 @@ class AccountsWidget {
    * */
   update() {
     if (User.current()) {
-      Account.list({}, (response, err) => {
+      Account.list({}, (err, response) => {
         if (response & response.success) {
           this.clear();
           for (let account of response) {
             this.render(account);
           }
+        } else {
+          console.log(`Ошибка ${err}`);
         }
       });
     }

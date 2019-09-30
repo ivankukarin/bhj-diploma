@@ -17,6 +17,8 @@ class LoginForm extends AsyncForm {
         App.setState("user-logged");
         let registerFormModul = App.getModal("login");
         registerFormModul.close();
+      } else {
+        console.log(`Ошибка ${err}`);
       }
     });
   }

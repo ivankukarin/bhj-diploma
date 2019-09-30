@@ -25,13 +25,15 @@ class CreateTransactionForm extends AsyncForm {
   renderAccountsList() {
     let elemAccountList = document.querySelector(".accounts-select");
     /// этим очищаю список транзакций перед отрисовкой
-    elemAccountList.innerHTML = "";   
-    Account.list({}, (response, err) => {
-      if (response && response.success) {
+    elemAccountList.innerHTML = "";
+    Account.list({}, (err, pesponse) => {
+      if (response && response.success === true) {
         for (let item of response) {
           let elem = `<option value="${item.id}">${item.name}</option>`;
           elemAccountList.insertAdjacentHTML("beforeend", elem);
         }
+      } else {
+        console.log(`Ошибка ${err}`);
       }
     });
   }
