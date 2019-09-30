@@ -82,7 +82,9 @@ class Entity {
       responseType: "json",
       method: "POST",
       callback(err, response);
-    }, callback (err,response))       
+    }, 
+    callback (err,response)
+    )       
   }
 }
 Entity.HOST = "https://bhj-diplom.letsdocode.ru";
