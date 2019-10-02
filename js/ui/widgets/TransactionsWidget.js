@@ -34,12 +34,12 @@ class TransactionsWidget {
 
     buttonCreateIncome.addEventListener("click", () => {
       let modal = App.getModal("newIncome");
-      Modal.open();
+      modal.open();
     });
 
     buttonCreateExpense.addEventListener("click", () => {
       let modal = App.getModal("newExpense");
-      Modal.open();
+      modal.open();
     });
   }
 }

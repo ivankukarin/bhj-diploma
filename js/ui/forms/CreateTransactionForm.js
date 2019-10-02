@@ -26,7 +26,7 @@ class CreateTransactionForm extends AsyncForm {
     let elemAccountList = document.querySelector(".accounts-select");
     /// этим очищаю список транзакций перед отрисовкой
     elemAccountList.innerHTML = "";
-    Account.list({}, (err, pesponse) => {
+    Account.list({}, (err, response) => {
       if (response && response.success === true) {
         for (let item of response) {
           let elem = `<option value="${item.id}">${item.name}</option>`;
@@ -46,7 +46,7 @@ class CreateTransactionForm extends AsyncForm {
    * */
   onSubmit(options) {
     Transaction.create(options, function(response, err) {
-      if (response.success) {
+      if (response & response.success) {
         this.element.reset();
 
         let type = this.element

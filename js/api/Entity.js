@@ -9,15 +9,14 @@ class Entity {
    * Это могут быть счета или доходы/расходы
    * (в зависимости от того, что наследуется от Entity)
   //  * */
-  static list(data, callback) {
-    createRequest({
+  static list(data, callback = f => f) {
+    return createRequest({
       data,
       method: "GET",
       url: this.HOST + this.URL,
-      responseType: "json"
-    },
-      callback(err, response)
-    )    
+      responseType: "json",    
+      callback
+    })    
   }
   
 
@@ -26,64 +25,62 @@ class Entity {
    * на сервер. (в зависимости от того,
    * что наследуется от Entity)
    * */
-  static create(data, callback(err, response)) {
+  static create(data, callback = f => f) {
     Object.assign(data, { _method: "PUT" });
     let options = {
       data,
       url: this.HOST + this.URL,
       responseType: "json",
       method: "POST",
-      callback(err, response);
+      callback
     };
-    createRequest(options, callback (err,response));
+    return createRequest(options)
   }
 
   /**
    * Получает информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static get(id = "", data, callback(err, response)) {
+  static get(id = "", data, callback = f => f) {
     let options = {
+      data,
       url: this.HOST + this.URL + "/" + id,
       responseType: "json",
-      method: "GET",
-      data,
-      callback(err, response)
+      method: "GET",      
+      callback
       };
-    return createRequest(options, callback (err,response));
+    return createRequest(options, callback);
   }
 
   /**
    * Обновляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static update(id = "", data, callback(err, response)) {
+  static update(id = "", data, callback = f => f) {
     let options = {
       url: this.HOST + this.URL + "/" + id,
       responseType: "json",
       method: "POST",
       data,
-      callback(err, response);
+      callback
     };
-    createRequest(options, callback (err,response));
+    return createRequest(options)
   }
 
   /**
    * Удаляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static remove(id = "", data, callback(err, response)) {
+  static remove(id = "", data, callback = f => f) {
     Object.assign(data, { _method: "DELETE" });
 
-    createRequest({
+    return createRequest({
       data,
       url: this.HOST + this.URL + "/" + id,
       responseType: "json",
       method: "POST",
-      callback(err, response);
-    }, 
-    callback (err,response)
-    )       
+      callback
+    })       
   }
 }
 Entity.HOST = "https://bhj-diplom.letsdocode.ru";

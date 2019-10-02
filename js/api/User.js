@@ -40,10 +40,10 @@ class User {
       method: "GET",
       url: this.HOST + this.URL + "/current",
       responseType: "json",
-      callback(err, response) {
-        if (response.user & (response.success === true)) {
+      callback: (err, response) => {
+        if (response.user & response.success) {
           User.setCurrent(response.user);
-        } else if (response.success === false) {
+        } else if (!response.success) {
           User.unsetCurrent();
         }
         callback(err, response);
@@ -63,7 +63,7 @@ class User {
       method: "POST",
       url: this.HOST + this.URL + "/login",
       responseType: "json",
-      callback(err, response) {
+      callback: (err, response) => {
         if (response && response.success === true) {
           User.setCurrent(response.user);
         } else {
@@ -86,7 +86,7 @@ class User {
       method: "POST",
       url: this.HOST + this.URL + "/register",
       responseType: "json",
-      callback(err, response) {
+      callback: (err, response) => {
         if (response && response.success === true) {
           User.setCurrent(response.user);
         } else {
@@ -107,7 +107,7 @@ class User {
       method: "POST",
       url: this.HOST + this.URL + "/logout",
       responseType: "json",
-      callback(err, response) {
+      callback: (err, response) => {
         if (response && response.success === "true") {
           User.unsetCurrent();
         }

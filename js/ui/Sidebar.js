@@ -18,11 +18,10 @@ class Sidebar {
    * при нажатии на кнопку .sidebar-toggle
    * */
   static initToggleButton() {
-    document.querySelector('.sidebar-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('sidebar-open');
-      document.body.classList.toggle('sidebar-collapse')
-    })
-
+    document.querySelector(".sidebar-toggle").addEventListener("click", () => {
+      document.body.classList.toggle("sidebar-open");
+      document.body.classList.toggle("sidebar-collapse");
+    });
   }
 
   /**
@@ -33,30 +32,28 @@ class Sidebar {
    * выходу устанавливает App.setState( 'init' )
    * */
   static initAuthLinks() {
-    const buttonRegister = document.querySelector('.menu-item_register');
-    const modalRegister = App.getModal('register');
+    const buttonRegister = document.querySelector(".menu-item_register");
+    const modalRegister = App.getModal("register");
 
-    const buttonLogin = document.querySelector('.menu-item_login');
-    const modalLogin = App.getModal('login');
+    const buttonLogin = document.querySelector(".menu-item_login");
+    const modalLogin = App.getModal("login");
 
-    const buttonLogout = document.querySelector('.menu-item_logout');
+    const buttonLogout = document.querySelector(".menu-item_logout");
 
-    buttonRegister.addEventListener('click', () => {
-      modalRegister.open()
+    buttonRegister.addEventListener("click", () => {
+      modalRegister.open();
     });
 
-    buttonLogin.addEventListener('click', () => {
+    buttonLogin.addEventListener("click", () => {
       modalLogin.open();
     });
 
-    buttonLogout.addEventListener('click', () => {
+    buttonLogout.addEventListener("click", () => {
       User.logout({}, () => {
-        if (response && response.success) {
-          App.setState('init')
+        if (response && response.success === true) {
+          App.setState("init");
         }
-      })
-    })
-
+      });
+    });
   }
-
 }

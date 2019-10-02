@@ -12,7 +12,7 @@ class CreateAccountForm extends AsyncForm {
   onSubmit(options) {
     Account.create(
       (options,
-      (err, pesponse) => {
+      (err, response) => {
         if (response && response.success === true) {
           this.element.reset();
           App.update();
