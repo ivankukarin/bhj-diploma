@@ -120,7 +120,7 @@ class TransactionsPage {
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name) {
-    this.element.textContent(name);
+    this.element.textContent = name;
   }
 
   /**
@@ -197,6 +197,6 @@ class TransactionsPage {
       let transaction = this.getTransactionHTML(item);
       html = transaction + html;
     }
-    elem.innerHTML(html);
+    elem.innerHTML = html;
   }
 }

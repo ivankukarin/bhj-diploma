@@ -65,7 +65,7 @@ class User {
       responseType: "json",
       callback: (err, response) => {
         if (response && response.success === true) {
-          User.setCurrent(response.user);
+          this.setCurrent(response.user);
         } else {
           console.log(err);
         }

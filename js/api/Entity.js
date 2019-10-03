@@ -42,9 +42,10 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static get(id = "", data, callback = f => f) {
+    Object.assign(data, { id: id })
     let options = {
-      data,
-      url: this.HOST + this.URL + "/" + id,
+      data: data + id,
+      url: this.HOST + this.URL,
       responseType: "json",
       method: "GET",      
       callback
@@ -52,31 +53,17 @@ class Entity {
     return createRequest(options, callback);
   }
 
-  /**
-   * Обновляет информацию о счёте или доходе/расходе
-   * (в зависимости от того, что наследуется от Entity)
-   * */
-  static update(id = "", data, callback = f => f) {
-    let options = {
-      url: this.HOST + this.URL + "/" + id,
-      responseType: "json",
-      method: "POST",
-      data,
-      callback
-    };
-    return createRequest(options)
-  }
 
   /**
    * Удаляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove(id = "", data, callback = f => f) {
-    Object.assign(data, { _method: "DELETE" });
+    Object.assign(data, { _method: "DELETE", id: id });
 
     return createRequest({
       data,
-      url: this.HOST + this.URL + "/" + id,
+      url: this.HOST + this.URL,
       responseType: "json",
       method: "POST",
       callback

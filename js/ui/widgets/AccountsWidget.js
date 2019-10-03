@@ -65,16 +65,7 @@ class AccountsWidget {
     }
   }
 
-  /**
-   * Отрисовывает массив счетов с помощью
-   * метода renderItem
-   * */
-  render(data) {
-    for (let account of data) {
-      this.renderItem(account);
-    }
-  }
-
+ 
   /**
    * Очищает список ранее отображённых счетов.
    * Для этого необходимо удалять все элементы .account
@@ -123,6 +114,8 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(item) {
-    this.element.insertAdjacentHTML("beforeend", getAccountHTML(item));
+    for (let account of item) {
+      this.element.insertAdjacentHTML("beforeend", getAccountHTML(account));
+    }
   }
 }
