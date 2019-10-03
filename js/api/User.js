@@ -67,7 +67,7 @@ class User {
         if (response && response.success === true) {
           this.setCurrent(response.user);
         } else {
-          console.log(err);
+          console.log("Ответ не пришел" + err);
         }
         callback(err, response);
       }
@@ -88,7 +88,7 @@ class User {
       responseType: "json",
       callback: (err, response) => {
         if (response && response.success === true) {
-          User.setCurrent(response.user);
+          this.setCurrent(response.user);
         } else {
           console.log(err.error);
         }
@@ -109,7 +109,7 @@ class User {
       responseType: "json",
       callback: (err, response) => {
         if (response && response.success === "true") {
-          User.unsetCurrent();
+          this.unsetCurrent();
         }
         callback(err, response);
       }

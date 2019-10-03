@@ -17,12 +17,12 @@ const createRequest = ( options  ) => {
     xhr.credentials = "true";
 
     if (options.method === "GET") {
-      for (let key in options.data) {
+      for (let key in options.data.data) {
         options.url += "?" + key + "=" + options.data.data[key];
       }
     } else {
       for (let key in options.data.data) {
-        formData.append(key, options.data[key]);
+        formData.append(key, options.data.data[key]);
       }
     }
 

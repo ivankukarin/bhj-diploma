@@ -48,7 +48,9 @@ class Modal {
   unregisterEvents() {
     const allButtons = this.element.querySelectorAll('[data-dismiss="modal"]');
     for (let buttonClose of allButtons) {
-      buttonClose.removeEventListener("click", this.onClose(e));
+      buttonClose.removeEventListener("click", e => {
+        this.onClose(e);
+      });
     }
   }
   /**

@@ -44,7 +44,7 @@ class Entity {
   static get(id = "", data, callback = f => f) {
     Object.assign(data, { id: id })
     let options = {
-      data: data + id,
+      data,
       url: this.HOST + this.URL,
       responseType: "json",
       method: "GET",      

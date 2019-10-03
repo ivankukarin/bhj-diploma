@@ -94,10 +94,11 @@ class TransactionsPage {
    * */
   render(options) {
     if (options) {
+      console.log(options);
       this.lastOptions = options;
-      Account.get(options.account_id, {}, (err, response) => {
+      Account.get(options.id, {}, (err, response) => {
         if (response.success === true) {
-          this.renderTitle(response.name);
+          this.renderTitle(response.data.name);
         }
       });
     } else {
