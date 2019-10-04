@@ -10,7 +10,7 @@ class User {
    * локальном хранилище.
    * Как проставить дополнительно / и зачем?
    **/
-  static setCurrent(user) {
+  static setCurrent(user) {    
     localStorage.user = JSON.stringify(user);
   }
 
@@ -27,7 +27,9 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    return localStorage.user && JSON.parse(localStorage.user);
+    if (localStorage.user) {
+      return JSON.parse(localStorage.user);
+    }
   }
 
   /**
@@ -41,7 +43,7 @@ class User {
       url: this.HOST + this.URL + "/current",
       responseType: "json",
       callback: (err, response) => {
-        if (response.user & response.success) {
+        if (response.user && response.success) {
           User.setCurrent(response.user);
         } else if (!response.success) {
           User.unsetCurrent();
@@ -64,7 +66,7 @@ class User {
       url: this.HOST + this.URL + "/login",
       responseType: "json",
       callback: (err, response) => {
-        if (response && response.success === true) {
+        if (response && response.success) {
           this.setCurrent(response.user);
         } else {
           console.log("Ответ не пришел" + err);
@@ -87,7 +89,7 @@ class User {
       url: this.HOST + this.URL + "/register",
       responseType: "json",
       callback: (err, response) => {
-        if (response && response.success === true) {
+        if (response && response.success) {
           this.setCurrent(response.user);
         } else {
           console.log(err.error);
@@ -108,7 +110,7 @@ class User {
       url: this.HOST + this.URL + "/logout",
       responseType: "json",
       callback: (err, response) => {
-        if (response && response.success === "true") {
+        if (response && response.success) {
           this.unsetCurrent();
         }
         callback(err, response);

@@ -17,12 +17,12 @@ const createRequest = ( options  ) => {
     xhr.credentials = "true";
 
     if (options.method === "GET") {
-      for (let key in options.data.data) {
-        options.url += "?" + key + "=" + options.data.data[key];
+      for (let key in options.data) {
+        options.url += "?" + key + "=" + options.data[key];
       }
     } else {
-      for (let key in options.data.data) {
-        formData.append(key, options.data.data[key]);
+      for (let key in options.data) {
+        formData.append(key, options.data[key]);
       }
     }
 
@@ -30,6 +30,7 @@ const createRequest = ( options  ) => {
       if (xhr.status === 200 && xhr.readyState === 4) {
         let response = xhr.response;
         options.callback(null, response);
+        console.log(typeof(response), response)
       }
     };
 

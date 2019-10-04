@@ -63,7 +63,7 @@ class TransactionsPage {
       if (confirm("Вы действительно хотите удалить счет?")) {
         let id = this.lastOptions.account_id;
         Account.remove(id, (err, response) => {
-          if (response && response.success === true) {
+          if (response && response.success) {
             App.update();
           }
         });
@@ -79,7 +79,7 @@ class TransactionsPage {
   removeTransaction(id) {
     if (confirm("Вы действительно хотите удалить счет?")) {
       Transaction.remove(id, (err, response) => {
-        if (response && response.success === "true") {
+        if (response && response.success) {
           App.update();
         }
       });
@@ -96,13 +96,17 @@ class TransactionsPage {
     if (options) {
       console.log(options);
       this.lastOptions = options;
-      Account.get(options.id, {}, (err, response) => {
-        if (response.success === true) {
+      Account.get(options.account_id, {}, (err, response) => {
+        if (response && response.success) {
           this.renderTitle(response.data.name);
         }
       });
-    } else {
-      throw new Error("Элемент в  TransactionsPage.render отсутствует");
+      Transaction.list(options.account_id, (err, response) => {
+        if (response && response.success) {
+          console.log("ВОТ ТАКОЙ ОТВЕТ:" + response);
+          renderTransactions(response);
+        }
+      });
     }
   }
 

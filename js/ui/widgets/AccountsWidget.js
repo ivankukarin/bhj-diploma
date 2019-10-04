@@ -31,7 +31,7 @@ class AccountsWidget {
   registerEvents() {
     this.element.addEventListener("click", e => {
       if (e.target.closest(".create-account")) {
-        App.getModal("createAccount");
+        App.getModal("createAccount").open();
       }
 
       if (e.target.closest(".account")) {
@@ -53,7 +53,7 @@ class AccountsWidget {
   update() {
     if (User.current()) {
       Account.list({}, (err, response) => {
-        if (response & response.success) {
+        if (response && response.success) {
           this.clear();
           for (let account of response) {
             this.render(account);
@@ -87,7 +87,7 @@ class AccountsWidget {
    * */
   onSelectAccount(element) {
     const account = this.element.querySelector(
-      '.account[data-id="${this.currentAccountId}"]'
+      `.account[data-id=${this.currentAccountId}]`
     );
     if (account) {
       if (account.classList.contains("active")) {
@@ -95,6 +95,7 @@ class AccountsWidget {
       }
     }
     element.classList.add(".active");
+    this.currentAccountId = null;
     this.currentAccountId = element.dataset.id;
     App.showPage("transactions", { account_id: this.currentAccountId });
   }
@@ -105,7 +106,7 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item) {
-    return `<li class="active" data-id="${item.id}"><a href="#"><span>${item.name}/span>/<span>${item.sun} ₽</span></a></li>`;
+    return `<li class="active" data-id="${item.id}"><a href="#"><span>${item.name}/span>/<span>${item.sum} ₽</span></a></li>`;
   }
 
   /**

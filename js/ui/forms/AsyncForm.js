@@ -57,10 +57,9 @@ class AsyncForm {
    * данные, полученные из метода getData()
    * */
   submit() {
-    let options = {};
-    options.url = this.element.getAttribute("action");
-    options.method = this.element.getAttribute("method");
-    options.data = this.getData();
+    
+    let options = {};    
+    options = this.getData();
     this.onSubmit(options);
   }
 }
