@@ -52,11 +52,12 @@ class AccountsWidget {
    * */
   update() {
     if (User.current()) {
-      Account.list(User.current().name, (err, response) => {
-        if (response && response.success) {
+      Account.list(User.current(), (err, response) => {
+        if (response) {
           this.clear();
-          for (let account of response) {
-            this.render(account);
+
+          for (let i = 0; i < response.data.length; i++) {
+            this.renderItem(response.data[i]);
           }
         } else {
           console.log(`Ошибка ${err}`);
@@ -65,7 +66,6 @@ class AccountsWidget {
     }
   }
 
- 
   /**
    * Очищает список ранее отображённых счетов.
    * Для этого необходимо удалять все элементы .account
@@ -106,7 +106,8 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item) {
-    return `<li class="active" data-id="${item.id}"><a href="#"><span>${item.name}/span>/<span>${item.sum} ₽</span></a></li>`;
+    let htmlElem = `<li class="active" data-id="${item.id}"><a href="#"><span>${item.name}</span><span> ${item.sum} ₽</span></a></li>`;
+    return htmlElem;
   }
 
   /**
@@ -115,8 +116,7 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(item) {
-    for (let account of item) {
-      this.element.insertAdjacentHTML("beforeend", getAccountHTML(account));
-    }
+    let elemAccount = this.getAccountHTML(item);
+    this.element.insertAdjacentHTML("beforeEnd", elemAccount);
   }
 }

@@ -63,7 +63,7 @@ class AsyncForm {
     options.url = this.element.getAttribute("action");
     console.log(`options в AsyncForm.submit`);
     for (let key in options){
-    console.log(` Ключ ${key} значение ${options[key]}`)
+    console.log(` Ключ ${key} значение ${options.key}`)
     };
     this.onSubmit(options);
   }

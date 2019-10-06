@@ -17,14 +17,15 @@ const createRequest = options => {
 
   if (options.method === "GET") {
     console.log(
-      '"options.data в createRequests если options.method === "GET" ' +
-        options.data
+      `options.data в createRequests если options.method === "GET" 
+        ${options.data}`
     );
     options.url += "?";
     for (let key in options.data) {
       options.url += key + "=" + options.data[key] + "&";
     }
     options.url = options.url.slice(0, -1);
+
     console.log(
       '"options.url в createRequests если options.method === "GET" ' +
         options.url
@@ -39,7 +40,6 @@ const createRequest = options => {
     if (xhr.status === 200 && xhr.readyState === 4) {
       let response = xhr.response;
       options.callback(null, response);
-      console.log(typeof response, response);
     }
   };
 
