@@ -45,10 +45,9 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit(options) {
-    Transaction.create(options, function(response, err) {
+    Transaction.create(options.data, function(response, err) {
       if (response & response.success) {
         this.element.reset();
-
         let type = this.element
           .querySelector([(name = "type")])
           .getAttribute("value");

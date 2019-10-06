@@ -52,7 +52,7 @@ class AccountsWidget {
    * */
   update() {
     if (User.current()) {
-      Account.list({}, (err, response) => {
+      Account.list(User.current().name, (err, response) => {
         if (response && response.success) {
           this.clear();
           for (let account of response) {

@@ -11,7 +11,7 @@ class LoginForm extends AsyncForm {
    * закрывает окно, в котором находится форма
    * */
   onSubmit(options) {
-    User.login(options, (err, response) => {
+    User.login(options.data, (err, response) => {
       if (response && response.success) {
         this.element.reset();
         App.setState("user-logged");
