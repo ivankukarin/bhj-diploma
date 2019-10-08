@@ -35,7 +35,7 @@ class AccountsWidget {
       }
 
       if (e.target.closest(".account")) {
-        e.target.closest(".account").onSelectAccount();
+        this.onSelectAccount(e.target.closest(".account"));
       }
     });
   }
@@ -86,17 +86,24 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount(element) {
+
+    
     const account = this.element.querySelector(
-      `.account[data-id=${this.currentAccountId}]`
-    );
+      '.account[data-id="'+this.currentAccountId+'"]')
+    ;
+    // alert(this.element.querySelector(
+    //   '.account[data-id="'+this.currentAccountId+'"]'));
     if (account) {
       if (account.classList.contains("active")) {
         account.classList.remove("active");
       }
     }
-    element.classList.add(".active");
     this.currentAccountId = null;
+
+    element.classList.add("active");
     this.currentAccountId = element.dataset.id;
+    
+    console.log(this.currentAccountId);
     App.showPage("transactions", { account_id: this.currentAccountId });
   }
 
@@ -106,7 +113,7 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item) {
-    let htmlElem = `<li class="active" data-id="${item.id}"><a href="#"><span>${item.name}</span><span> ${item.sum} ₽</span></a></li>`;
+    let htmlElem = `<li class="account" data-id="${item.id}"><a href="#"><span>${item.name}</span><span> ${item.sum} ₽</span></a></li>`;
     return htmlElem;
   }
 

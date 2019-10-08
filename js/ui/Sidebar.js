@@ -45,7 +45,7 @@ class Sidebar {
     });
 
     buttonLogout.addEventListener("click", () => {
-      User.logout( {},() => {
+      User.logout( {}, (err, response) => {
         if (response && response.success) {
           App.setState("init");          
         }

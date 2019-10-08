@@ -93,8 +93,7 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options) {
-    if (options) {
-      console.log(options);
+    if (options) {      
       this.lastOptions = options;
       Account.get(options.account_id, {}, (err, response) => {
         if (response && response.success) {
@@ -103,7 +102,7 @@ class TransactionsPage {
       });
       Transaction.list(options.account_id, (err, response) => {
         if (response && response.success) {
-          console.log("ВОТ ТАКОЙ ОТВЕТ:" + response);
+          console.log(`ВОТ ТАКОЙ ОТВЕТ в TransactionPage.render:"  ${response}`);
           renderTransactions(response);
         }
       });
@@ -197,11 +196,11 @@ class TransactionsPage {
    * */
   renderTransactions(data) {
     let elem = this.element.querySelector(".content");
-    let html;
+    let htmlElem;
     for (let item of data) {
-      let transaction = this.getTransactionHTML(item);
-      html = transaction + html;
+      let transactionHTML = this.getTransactionHTML(item);
+      htmlElem = transactionHTML + htmlElem;
     }
-    elem.innerHTML = html;
+    elem.innerHTML = htmlElem;
   }
 }
