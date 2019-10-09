@@ -23,7 +23,6 @@ class TransactionsPage {
    * */
   update() {
     this.render(this.lastOptions);
-    
   }
 
   /**
@@ -105,10 +104,8 @@ class TransactionsPage {
       });
 
       Transaction.list(options, (err, response) => {
-        if (response) {
+        if (response.data && response.data != undefined) {
           this.renderTransactions(response);
-        } else {
-          console.log(`Ошибка ${err}`);
         }
       });
     }
