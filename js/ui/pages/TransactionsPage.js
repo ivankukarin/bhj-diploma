@@ -23,6 +23,7 @@ class TransactionsPage {
    * */
   update() {
     this.render(this.lastOptions);
+    
   }
 
   /**
@@ -33,9 +34,9 @@ class TransactionsPage {
    * */
   registerEvents() {
     let id;
-    let buttonRemoveAccount = document.querySelector(".remove-account");
-    let buttonsRemoveTransaction = document.getElementsByClassName(
-      "transaction__remove"
+    let buttonRemoveAccount = this.element.querySelector(".remove-account");
+    let buttonsRemoveTransaction = this.element.querySelectorAll(
+      ".transaction__remove"
     );
 
     buttonRemoveAccount.addEventListener("click", () => {
@@ -64,6 +65,7 @@ class TransactionsPage {
         let id = this.lastOptions.account_id;
         Account.remove("id", id, (err, response) => {
           if (response && response.success) {
+            this.clear();
             App.update();
           }
         });
@@ -77,8 +79,7 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update()
    * */
   removeTransaction(id) {
-    if (confirm("Вы действительно хотите удалить счет?")) {
-      alert(id);
+    if (confirm("Вы действительно хотите удалить эту транзакцию?")) {
       Transaction.remove("id", id, (err, response) => {
         if (response && response.success) {
           App.update();
@@ -128,8 +129,6 @@ class TransactionsPage {
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name) {
-    console.log(this.element.querySelector(".content-title"));
-    console.log(name);
     this.element.querySelector(".content-title").textContent = name;
   }
 
@@ -208,10 +207,12 @@ class TransactionsPage {
    * */
   renderTransactions(response) {
     let elem = this.element.querySelector(".content");
-    let htmlElem;
+    let htmlElem = "";
     for (let i = 0; i < response.data.length; i++) {
       let transactionHTML = this.getTransactionHTML(response.data[i]);
-      htmlElem = transactionHTML + htmlElem;
+      if (transactionHTML) {
+        htmlElem = transactionHTML + htmlElem;
+      }
     }
     elem.innerHTML = htmlElem;
   }
