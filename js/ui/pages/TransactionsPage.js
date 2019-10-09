@@ -62,7 +62,7 @@ class TransactionsPage {
     if (this.lastOptions) {
       if (confirm("Вы действительно хотите удалить счет?")) {
         let id = this.lastOptions.account_id;
-        Account.remove(id, (err, response) => {
+        Account.remove("id", id, (err, response) => {
           if (response && response.success) {
             App.update();
           }
@@ -78,7 +78,8 @@ class TransactionsPage {
    * */
   removeTransaction(id) {
     if (confirm("Вы действительно хотите удалить счет?")) {
-      Transaction.remove(id, (err, response) => {
+      alert(id);
+      Transaction.remove("id", id, (err, response) => {
         if (response && response.success) {
           App.update();
         }
@@ -93,17 +94,20 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options) {
-    if (options) {      
+    if (options) {
       this.lastOptions = options;
-      Account.get(options.account_id, {}, (err, response) => {
-        if (response && response.success) {
+
+      Account.get("id", options.account_id, (err, response) => {
+        if (response) {
           this.renderTitle(response.data.name);
         }
       });
-      Transaction.list(options.account_id, (err, response) => {
-        if (response && response.success) {
-          console.log(`ВОТ ТАКОЙ ОТВЕТ в TransactionPage.render:"  ${response}`);
-          renderTransactions(response);
+
+      Transaction.list(options, (err, response) => {
+        if (response) {
+          this.renderTransactions(response);
+        } else {
+          console.log(`Ошибка ${err}`);
         }
       });
     }
@@ -124,7 +128,9 @@ class TransactionsPage {
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name) {
-    this.element.textContent = name;
+    console.log(this.element.querySelector(".content-title"));
+    console.log(name);
+    this.element.querySelector(".content-title").textContent = name;
   }
 
   /**
@@ -152,7 +158,13 @@ class TransactionsPage {
     let year = t.getFullYear();
     let hours = t.getHours();
     let minutes = t.getMinutes();
-    formatNN = number => (number < 10 ? "0" + number : number);
+    let formatNN = function(number) {
+      if (number < 10) {
+        return "0" + number;
+      } else {
+        return number;
+      }
+    };
 
     return `${formatNN(day)} ${month} ${year} г. в ${formatNN(
       hours
@@ -194,11 +206,11 @@ class TransactionsPage {
    * Отрисовывает список транзакций на странице
    * используя getTransactionHTML
    * */
-  renderTransactions(data) {
+  renderTransactions(response) {
     let elem = this.element.querySelector(".content");
     let htmlElem;
-    for (let item of data) {
-      let transactionHTML = this.getTransactionHTML(item);
+    for (let i = 0; i < response.data.length; i++) {
+      let transactionHTML = this.getTransactionHTML(response.data[i]);
       htmlElem = transactionHTML + htmlElem;
     }
     elem.innerHTML = htmlElem;

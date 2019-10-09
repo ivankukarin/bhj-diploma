@@ -10,15 +10,15 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
   //  * */
   static list(data, callback = f => f) {
-    return createRequest({
+    let options = {
       data,
       method: "GET",
       url: this.HOST + this.URL,
-      responseType: "json",    
+      responseType: "json",
       callback
-    })    
+    };
+    return createRequest(options);
   }
-  
 
   /**
    * Создаёт счёт или доход/расход с помощью запроса
@@ -34,41 +34,45 @@ class Entity {
       method: "POST",
       callback
     };
-    return createRequest(options)
+    return createRequest(options);
   }
 
   /**
    * Получает информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static get(id = "", data, callback = f => f) {
-    Object.assign(data, { id: id })
+  static get(id, value, callback = f => f) {
+    let data = {};
+    Object.assign(data, { [id]: value });
+
     let options = {
       data,
       url: this.HOST + this.URL,
       responseType: "json",
-      method: "GET",      
+      method: "GET",
       callback
-      };
-    return createRequest(options, callback);
+    };
+    return createRequest(options);
   }
-
 
   /**
    * Удаляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static remove(id = "", data, callback = f => f) {
-    Object.assign(data, { _method: "DELETE", id: id });
-
-    return createRequest({
+  static remove(id, value, callback = f => f) {
+    let data = {};
+    Object.assign(data, { _method: "DELETE", [id]: value });
+    console.log(data);
+    let options = {
       data,
       url: this.HOST + this.URL,
       responseType: "json",
       method: "POST",
       callback
-    })       
+    };
+    return createRequest(options);
   }
 }
+
 Entity.HOST = "https://bhj-diplom.letsdocode.ru";
 Entity.URL = "";

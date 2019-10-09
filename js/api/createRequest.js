@@ -16,20 +16,20 @@ const createRequest = options => {
   xhr.withCredentials = true;
 
   if (options.method === "GET") {
-    console.log(
-      `options.data в createRequests если options.method === "GET" 
-        ${options.data}`
-    );
+    // console.log(
+    //   `options.data в createRequests если options.method === "GET" 
+    //     ${options.data}`
+    // );
     options.url += "?";
     for (let key in options.data) {
       options.url += key + "=" + options.data[key] + "&";
     }
     options.url = options.url.slice(0, -1);
 
-    console.log(
-      '"options.url в createRequests если options.method === "GET" ' +
-        options.url
-    );
+    // console.log(
+    //   '"options.url в createRequests если options.method === "GET" ' +
+    //     options.url
+    // );
   } else {
     for (let key in options.data) {
       formData.append(key, options.data[key]);

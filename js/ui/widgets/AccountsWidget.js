@@ -86,13 +86,9 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount(element) {
-
-    
     const account = this.element.querySelector(
-      '.account[data-id="'+this.currentAccountId+'"]')
-    ;
-    // alert(this.element.querySelector(
-    //   '.account[data-id="'+this.currentAccountId+'"]'));
+      '.account[data-id="' +this.currentAccountId+ '"]'
+    );
     if (account) {
       if (account.classList.contains("active")) {
         account.classList.remove("active");
@@ -102,8 +98,6 @@ class AccountsWidget {
 
     element.classList.add("active");
     this.currentAccountId = element.dataset.id;
-    
-    console.log(this.currentAccountId);
     App.showPage("transactions", { account_id: this.currentAccountId });
   }
 
