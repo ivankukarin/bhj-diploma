@@ -87,7 +87,7 @@ class AccountsWidget {
    * */
   onSelectAccount(element) {
     const account = this.element.querySelector(
-      '.account[data-id="' +this.currentAccountId+ '"]'
+      '.account[data-id="' + this.currentAccountId + '"]'
     );
     if (account) {
       if (account.classList.contains("active")) {
@@ -107,7 +107,8 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item) {
-    let htmlElem = `<li class="account" data-id="${item.id}"><a href="#"><span>${item.name}</span><span> ${item.sum} ₽</span></a></li>`;
+    let sumAccount = item.sum.toLocaleString("ru");
+    let htmlElem = `<li class="account" data-id="${item.id}"><a href="#"><span>${item.name}</span><span> ${sumAccount} ₽</span></a></li>`;
     return htmlElem;
   }
 

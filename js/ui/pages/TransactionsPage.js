@@ -34,20 +34,17 @@ class TransactionsPage {
   registerEvents() {
     let id;
     let buttonRemoveAccount = this.element.querySelector(".remove-account");
-    let buttonsRemoveTransaction = this.element.querySelectorAll(
-      ".transaction__remove"
-    );
 
     buttonRemoveAccount.addEventListener("click", () => {
       this.removeAccount();
     });
 
-    for (let button of buttonsRemoveTransaction) {
-      button.addEventListener("click", () => {
-        id = button.dataset.id;
+    this.element.addEventListener("click", e => {
+      if (e.target.closest(".transaction__remove")) {
+        let id = e.target.closest(".transaction__remove").dataset.id;
         this.removeTransaction(id);
-      });
-    }
+      }
+    });
   }
 
   /**
@@ -64,7 +61,6 @@ class TransactionsPage {
         let id = this.lastOptions.account_id;
         Account.remove("id", id, (err, response) => {
           if (response && response.success) {
-            this.clear();
             App.update();
           }
         });
@@ -105,7 +101,7 @@ class TransactionsPage {
 
       Transaction.list(options, (err, response) => {
         if (response.data && response.data != undefined) {
-          this.renderTransactions(response);
+          this.renderTransactions(response.data);
         }
       });
     }
@@ -173,6 +169,7 @@ class TransactionsPage {
    * */
   getTransactionHTML(item) {
     let date = this.formatDate(item.created_at);
+    let sumTransaction = item.sum.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1 ");
 
     return `<div class="transaction transaction_${item.type} row">
     <div class="col-md-7 transaction__details">
@@ -186,7 +183,7 @@ class TransactionsPage {
     </div>
     <div class="col-md-3">
       <div class="transaction__summ">
-      ${item.sum}<span class="currency">₽</span>
+      ${sumTransaction}<span class="currency"> ₽</span>
       </div>
     </div>
     <div class="col-md-2 transaction__controls">
@@ -205,9 +202,9 @@ class TransactionsPage {
   renderTransactions(response) {
     let elem = this.element.querySelector(".content");
     let htmlElem = "";
-    for (let i = 0; i < response.data.length; i++) {
-      let transactionHTML = this.getTransactionHTML(response.data[i]);
-      if (transactionHTML) {
+    if (response) {
+      for (let i = 0; i < response.length; i++) {
+        let transactionHTML = this.getTransactionHTML(response[i]);
         htmlElem = transactionHTML + htmlElem;
       }
     }

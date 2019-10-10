@@ -33,7 +33,8 @@ class CreateTransactionForm extends AsyncForm {
       if (response) {
         for (let i = 0; i < response.data.length; i++) {
           let item = response.data[i];
-          let elem = `<option value="${item.id}">${item.name} ${item.sum} ₽</option>`;
+          let sumAccount = item.sum.toLocaleString("ru");
+          let elem = `<option value="${item.id}">${item.name} ${sumAccount} ₽</option>`;
           for (let form of formsAccountList)
             form.insertAdjacentHTML("beforeEnd", elem);
         }
