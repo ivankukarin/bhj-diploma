@@ -4,7 +4,6 @@
  * */
 const createRequest = options => {
   let formData = new FormData();
-
   let xhr = new XMLHttpRequest();
 
   xhr.responseType = options.responseType;
@@ -15,25 +14,16 @@ const createRequest = options => {
   }
   xhr.withCredentials = true;
 
-  if (options.method === "GET") {
-    // console.log(
-    //   `options.data в createRequests если options.method === "GET" 
-    //     ${options.data}`
-    // );
+  if (options.method === "GET") {   
     options.url += "?";
     for (let key in options.data) {
       options.url += key + "=" + options.data[key] + "&";
     }
-    options.url = options.url.slice(0, -1);
-
-    // console.log(
-    //   '"options.url в createRequests если options.method === "GET" ' +
-    //     options.url
-    // );
+    options.url = options.url.slice(0, -1);    
   } else {
     for (let key in options.data) {
       formData.append(key, options.data[key]);
-    }
+    } 
   }
 
   xhr.onload = function() {
@@ -51,6 +41,7 @@ const createRequest = options => {
   };
 
   xhr.open(options.method, options.url);
+
   try {
     xhr.send(formData);
   } catch (err) {
